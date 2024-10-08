@@ -9,6 +9,4 @@ export class PostCreateDto {
     @IsString()
     content: string
 
-    user_id: number
 }
-export type TFlowerdUpdateDto = Partial<PostCreateDto>
