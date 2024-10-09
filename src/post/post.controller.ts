@@ -15,8 +15,8 @@ export class PostController {
     description: "Get all posts",
   })
   @Get('')
-  getPosts() {
-    return this.postService.getAllPosts()
+  async getPosts() {
+    return await this.postService.getAllPosts()
   }
 
   @ApiResponse({
@@ -26,8 +26,8 @@ export class PostController {
   @ApiBody({type: PostCreateDto})
   @UseGuards(AuthGuard)
   @Post('store')
-  createPost(@Body() dto: PostCreateDto, @Headers('Authorization') token: string) {
-    return this.postService.createPost(dto, this.jwtService.decode(token).id)
+  async createPost(@Body() dto: PostCreateDto, @Headers('Authorization') token: string) {
+    return await this.postService.createPost(dto, this.jwtService.decode(token).id)
   }
 
 }

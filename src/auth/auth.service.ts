@@ -64,7 +64,12 @@ export class AuthService {
     }
 
     async issueTokenPair(user: User) {
-        const accessToken = await this.jwtService.signAsync(user, {
+        const jwtData = {
+            id: user.id,
+            name: user.name,
+            created_at: user.created_at
+        }
+        const accessToken = await this.jwtService.signAsync(jwtData, {
             secret: process.env.JWT_SECRET,
             expiresIn: '10d'
         })
