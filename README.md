@@ -11,12 +11,12 @@ Rename .env copy to .env and fill DATABASE_URL and JWT_SECRET
 ```bash
 $ npm install
 ```
+## Documentation
+
+(domain)/docs
 
 ## Compile and run the project
 
-# Documentation
-
-(domain)/docs
 
 ```bash
 # development
