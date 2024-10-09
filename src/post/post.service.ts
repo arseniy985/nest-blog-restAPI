@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma.service';
 import { PostCreateDto } from './post.dto';
+import { title } from 'process';
 
 @Injectable()
 export class PostService {
@@ -10,12 +11,26 @@ export class PostService {
     }
 
     async createPost(dto: PostCreateDto, user_id: number) {
-         return await this.prisma.post.create({
+        const post = await this.prisma.post.create({
              data: {
                  title: dto.title,
                  content: dto.content,
                  user_id: Number(user_id)
              }
-         })
+        })
+        const user = await this.prisma.user.findUnique({
+            where: {
+                id: user_id
+            }
+        })
+        return {
+            title: dto.title,
+            content: dto.content,
+            user: {
+                id: user.id,
+                name: user.name
+            },
+            created_at: post.created_at 
+        }
     }
 }
