@@ -29,10 +29,13 @@ export class PostController {
   @UseGuards(AuthGuard)
   @Post('store')
   async createPost(@Body() dto: PostCreateDto, @Headers('Authorization') token: string) {
-    console.log( this.jwtService.decode(token))
     return await this.postService.createPost(dto, await this.jwtService.decode(token).id)
   }
 
+  @ApiOkResponse({
+    status: 201, 
+    description: "Delete message from DB"
+  })
   @UseGuards(AuthGuard)
   @UseGuards(ThisUserGuard)
   @Delete(':id')
@@ -48,7 +51,7 @@ export class PostController {
   @UseGuards(AuthGuard)
   @UseGuards(ThisUserGuard)
   @Patch(':id')
-  async editPost(@Param('id') post_id: number,@Body() dto: PostCreateDto, @Req() request: Request) {
+  async editPost(@Param('id') post_id: number, @Body() dto: PostCreateDto, @Req() request: Request) {
     return await this.postService.editPost(post_id, dto, request['post'])
   }
 }

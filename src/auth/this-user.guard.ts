@@ -21,8 +21,6 @@ export class ThisUserGuard implements CanActivate {
       }
     })
 
-    console.log(post)
-
     if (!post.id == this.jwtService.decode(request.headers['authorization']).id) return false
     request.post = post
 
