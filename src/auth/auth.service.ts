@@ -3,6 +3,7 @@ import { AuthDto } from './auth.dto';
 import { PrismaService } from 'src/prisma.service';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcryptjs';
+import { User } from '@prisma/client';
 
 @Injectable()
 export class AuthService {
@@ -12,8 +13,8 @@ export class AuthService {
 
     async login(dto: AuthDto) {
         const user = await this.validateUser(dto)
+        const tokens = await this.issueTokenPair(user)
 
-        const tokens = await this.issueTokenPair(String((await user).id))
         return {
             user: {
                 id: user.id,
@@ -39,9 +40,9 @@ export class AuthService {
             }
         })
 
-        const tokens = await this.issueTokenPair(String(newUser.id))
+        const tokens = await this.issueTokenPair(newUser)
 
-        return {
+        return await {
             user: {
                 id: newUser.id,
                 name: newUser.name
@@ -62,19 +63,12 @@ export class AuthService {
         return user
     }
 
-    async issueTokenPair(id: string) {
-        const data = {id}
-        const accessToken = await this.jwtService.signAsync(data, {
+    async issueTokenPair(user: User) {
+        const accessToken = await this.jwtService.signAsync(user, {
             secret: process.env.JWT_SECRET,
-            expiresIn: '10d',
+            expiresIn: '10d'
         })
-        return {accessToken}
-    }
 
-    async returnUserFields(user) {
-        return {
-            id: user.id,
-            name: user.name
-        }
+        return await {accessToken}
     }
 }
