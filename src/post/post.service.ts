@@ -24,8 +24,8 @@ export class PostService {
             }
         })
         return {
-            title: dto.title,
-            content: dto.content,
+            title: post.title,
+            content: post.content,
             user: {
                 id: user.id,
                 name: user.name

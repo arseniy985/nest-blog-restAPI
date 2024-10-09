@@ -3,7 +3,7 @@ import { PostService } from './post.service';
 import { PostCreateDto } from './post.dto';
 import { JwtService } from '@nestjs/jwt';
 import { AuthGuard } from 'src/auth/auth.guard';
-import { ApiBody, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiBody, ApiResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 
 @ApiTags('Post')
 @Controller('post')
@@ -19,7 +19,7 @@ export class PostController {
     return await this.postService.getAllPosts()
   }
 
-  @ApiResponse({
+  @ApiOkResponse({
     status: 201, 
     description: "Store message in DB"
   })
