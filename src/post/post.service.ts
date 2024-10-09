@@ -1,7 +1,6 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma.service';
 import { PostCreateDto } from './post.dto';
-import { title } from 'process';
 
 @Injectable()
 export class PostService {
@@ -11,11 +10,14 @@ export class PostService {
     }
 
     async createPost(dto: PostCreateDto, user_id: number) {
+        user_id = Number(user_id)
+        console.log(dto)
+        console.log(user_id)
         const post = await this.prisma.post.create({
              data: {
                  title: dto.title,
                  content: dto.content,
-                 user_id: Number(user_id)
+                 user_id: user_id
              }
         })
         const user = await this.prisma.user.findUnique({
@@ -24,6 +26,7 @@ export class PostService {
             }
         })
         return {
+            id: post.id,
             title: post.title,
             content: post.content,
             user: {
@@ -32,5 +35,28 @@ export class PostService {
             },
             created_at: post.created_at 
         }
+    }
+
+    async deletePost(post_id: number) {
+        this.prisma.post.delete({
+            where: {
+                id: post_id
+            }
+        })
+        
+        return null
+    }
+    async editPost(post_id: number, newData: PostCreateDto, oldPost) {
+        post_id = Number(post_id)
+        
+        if(oldPost.title == newData.title && oldPost.content == newData.content) throw new HttpException('New post data must be different', HttpStatus.BAD_REQUEST)
+
+        return await this.prisma.post.update({
+            where: { id: post_id },
+            data: {
+                title: newData.title,
+                content: newData.content
+            }
+        })
     }
 }

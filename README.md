@@ -14,6 +14,10 @@ $ npm install
 
 ## Compile and run the project
 
+# Documentation
+
+(domain)/docs
+
 ```bash
 # development
 $ npm run start

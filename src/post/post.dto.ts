@@ -8,8 +8,13 @@ export class PostCreateDto {
     title: string
 
     @ApiProperty()
-    @Min(6)
+    @Min(1)
     @IsString()
     content: string
 
+}
+
+export class InteractWithPostDto {
+    @ApiProperty()
+    post_id: number
 }
