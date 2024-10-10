@@ -6,6 +6,10 @@ MySQL, npm|node.js
 
 ## Project setup
 
+```bash
+$ git clone https://github.com/arseniy985/nest-blog-restAPI
+```
+
 Rename .env copy to .env and fill DATABASE_URL and JWT_SECRET
 
 ```bash

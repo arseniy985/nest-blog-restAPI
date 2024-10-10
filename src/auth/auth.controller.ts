@@ -10,7 +10,7 @@ export class AuthController {
   
   @ApiBody({type: AuthDto})
   @Post('login')
-  async login(@Body() dto:AuthDto) {
+  async login(@Body() dto: AuthDto) {
     return this.authService.login(dto);
   }
 
